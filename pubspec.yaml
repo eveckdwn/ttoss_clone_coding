@@ -46,6 +46,7 @@ dependencies:
   shared_preferences: ^2.0.15
   isar: 3.1.0
   isar_flutter_libs: 3.1.0
+  timeago: ^3.5.0
 
   #architecture
   event_bus: ^2.0.0
@@ -93,7 +94,6 @@ dev_dependencies:
   test: ^1.22.0
 
 
-
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
 
@@ -109,7 +109,14 @@ flutter:
     - assets/image/
     - assets/image/icon/
     - assets/image/flag/
+    - assets/image/splash/
     - assets/image/darkmode/
+    - assets/image/bank/
+    - assets/image/benefit/
+    - assets/image/stock/
+    - assets/image/credit_card/
+    - assets/image/illustration/
+    - assets/image/notification/
     - assets/translations/
     - assets/
 
