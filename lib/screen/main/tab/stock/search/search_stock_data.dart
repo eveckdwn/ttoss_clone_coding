@@ -1,14 +1,17 @@
-import 'package:get/get_rx/get_rx.dart';
-import 'package:get/get_state_manager/get_state_manager.dart';
+import 'package:get/get.dart';
 
 import '../../../../../common/common.dart';
 import '../../../../../common/util/local_json.dart';
 import '../vo_simple_stock.dart';
 
+abstract mixin class SearchStockDataProvider {
+  late final searchData = Get.find<SearchStockData>();
+}
+
 class SearchStockData extends GetxController {
   List<SimpleStock> stocks = [];
   RxList<String> searchHistoryList = <String>[].obs;
-  RxList<SimpleStock> searchResult = <SimpleStock>[].obs;
+  RxList<SimpleStock> autoCompleteList = <SimpleStock>[].obs;
 
   @override
   void onInit() {
@@ -23,20 +26,37 @@ class SearchStockData extends GetxController {
     super.onInit();
   }
 
-  Future<void> loadLocalStockJson() async{
-    final jsonList = await LocalJson.getObjectList<SimpleStock>("stock_list.json");
+  Future<void> loadLocalStockJson() async {
+    final jsonList = await LocalJson.getObjectList<SimpleStock>(
+        "stock_list.json");
     stocks.addAll(jsonList);
   }
 
-  void search(String text) {
-    if (isBlank(text)) {
-      searchResult.clear();
+  void search(String keyword) {
+    if (isBlank(keyword)) {
+      autoCompleteList.clear();
       return;
     }
-    searchResult.value = stocks.where((element) => element.stockName.contains(text)).toList();
+    autoCompleteList.value = stocks.where((element) => element.name.contains(keyword)).toList();
   }
 
   void addSearchHistory(String stockName) {
     searchHistoryList.insert(0, stockName);
   }
+
+  void addHistory(SimpleStock stock) {
+    searchHistoryList.add(stock.name);
+  }
+
+  void removeHistory(String stockName) {
+    searchHistoryList.remove(stockName);
+  }
+
+  /*
+  파라미터를 객체로 받을 경우, 객체 자체를 remove하면 안된다.
+  조건을 부여하여 해당 객체를 지울 수 있도록 한다.
+  void removeHistory(Stock stock) {
+    searchHistoryList.removeWhere((element) => element.id == stock.id);
+  }
+  */
 }
