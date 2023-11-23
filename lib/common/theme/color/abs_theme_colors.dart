@@ -12,6 +12,8 @@ abstract class AbstractThemeColors {
 
   Color get drawerBg => const Color.fromARGB(255, 255, 255, 255);
 
+  Color get documentBg => const Color.fromARGB(255, 80, 80, 80);
+
   Color get scrollableItem => const Color.fromARGB(255, 57, 57, 57);
 
   Color get iconButton => const Color.fromARGB(255, 255, 255, 255);

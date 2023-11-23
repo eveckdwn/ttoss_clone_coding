@@ -1,4 +1,4 @@
-package com.example.fast_app_base
+package com.ttoss.clone.cj
 
 import io.flutter.embedding.android.FlutterActivity
 
