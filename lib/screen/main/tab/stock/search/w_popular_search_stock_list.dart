@@ -1,5 +1,7 @@
+import 'package:animations/animations.dart';
 import 'package:fast_app_base/common/common.dart';
 import 'package:fast_app_base/common/dart/extension/datetime_extension.dart';
+import 'package:fast_app_base/screen/main/tab/stock/search/s_stock_detail.dart';
 import 'package:flutter/material.dart';
 
 import 'popular_stock_dummy.dart';
@@ -21,9 +23,17 @@ class PopularSearchStockList extends StatelessWidget {
         ),
         height20,
         ...popularStockList
-            .mapIndexed((element, index) =>
-                PopularStockItem(stock: element, number: index + 1))
-            .toList(),
+            .mapIndexed((element, index) => OpenContainer<bool>(
+              openColor: context.backgroundColor,
+              closedColor: context.backgroundColor,
+              openBuilder: (BuildContext _, VoidCallback openContainer) {
+                return StockDetailScreen(element.name);
+              },
+              closedBuilder: (BuildContext _, VoidCallback openContainer) {
+                return PopularStockItem(stock: element, number: index + 1);
+              }
+            )
+          ).toList()
       ],
     ).pSymmetric(h: 20);
   }
