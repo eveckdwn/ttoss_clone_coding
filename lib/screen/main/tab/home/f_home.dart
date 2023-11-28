@@ -12,11 +12,19 @@ import '../../../../common/widget/w_big_button.dart';
 import '../../../dialog/d_color_bottom.dart';
 import '../../../dialog/d_confirm.dart';
 import 'w_bank_account.dart';
+import 'w_rive_like_button.dart';
 
-class HomeFragment extends StatelessWidget {
+class HomeFragment extends StatefulWidget {
   const HomeFragment({
     Key? key,
   }) : super(key: key);
+
+  @override
+  State<HomeFragment> createState() => _HomeFragmentState();
+}
+
+class _HomeFragmentState extends State<HomeFragment> {
+  bool isLike = false;
 
   @override
   Widget build(BuildContext context) {
@@ -40,6 +48,17 @@ class HomeFragment extends StatelessWidget {
                   bottom: MainScreenState.bottomNavigatorHeight),
               child: Column(
                 children: [
+                  SizedBox(
+                      height: 250,
+                      width: 250,
+                      child: RiveLikeButton(
+                        isLike,
+                        onTapLike: (isLike) {
+                          setState(() {
+                            this.isLike = isLike;
+                          });
+                        },
+                      )),
                   BigButton(
                     "토스뱅크",
                     onTap: () {
