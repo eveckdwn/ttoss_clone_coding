@@ -1,10 +1,8 @@
 import 'dart:collection';
 
-import 'package:fast_app_base/common/cli_common.dart';
-import 'package:fast_app_base/common/common.dart';
+import 'package:fast_app_base/common/dart/extension/collection_extension.dart';
 import 'package:fast_app_base/screen/main/tab/home/banks_dummy.dart';
 import 'package:fast_app_base/screen/main/tab/home/vo/vo_bank_account.dart';
-import 'package:flutter/material.dart';
 
 final bankAccountShinhan1 = BankAccount(bankShinhan, 3000000, accountTypeName: "신한 주거래 우대통장(저축예금)");
 final bankAccountShinhan2 = BankAccount(bankShinhan, 30000000, accountTypeName: "저축예금");
@@ -69,7 +67,8 @@ main() {
   }
 
   //  변환
-  final banks = bankAccounts.mapIndexed((e, idx) => Row(children: [(idx+1).text.make()],)).toList();
+  //  final banks = bankAccounts.mapIndexed((e, idx) => Row(children: [(idx+1).text.make()],)).toList();
+  final banks = bankAccounts.map((e) {},);
   for(final bank in banks) {
     print(bank.toString());
   }
