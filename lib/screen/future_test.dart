@@ -1,4 +1,5 @@
-import 'package:fast_app_base/common/common.dart';
+import 'dart:async';
+
 import 'package:fast_app_base/screen/main/tab/home/bank_accounts_dummy.dart';
 import 'package:fast_app_base/screen/main/tab/home/vo/vo_bank_account.dart';
 
@@ -28,8 +29,9 @@ void main() async {
   /// End
 
   //  Future Timeout
+  const durationSample = Duration(seconds: 1000);
   print('Start');
-  final result = await getBankAccounts().timeout(1.seconds).onError((error, stackTrace) => [
+  final result = await getBankAccounts().timeout(durationSample).onError((error, stackTrace) => [
   ]);
   print(result);
   print('End');
@@ -38,7 +40,7 @@ void main() async {
   //  가능하면 then 보다는 await을 사용하는 것을 추천한다.
   print('Start');
   try {
-    final result1 = await getBankAccounts().timeout(1.seconds);
+    final result1 = await getBankAccounts().timeout(durationSample);
     print(result1);
   }catch(error) {
     print(error);
@@ -46,7 +48,7 @@ void main() async {
   print('End');
 
   print('Start');
-  final result2 = await getBankAccounts().timeout(1.seconds).then((value) {
+  final result2 = await getBankAccounts().timeout(durationSample).then((value) {
     print(value);
   }).catchError((error, stackTrace){
     print(error);
