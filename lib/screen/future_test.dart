@@ -29,7 +29,7 @@ void main() async {
   /// End
 
   //  Future Timeout
-  const durationSample = Duration(seconds: 1000);
+  const durationSample = Duration(seconds: 1);
   print('Start');
   final result = await getBankAccounts().timeout(durationSample).onError((error, stackTrace) => [
   ]);
