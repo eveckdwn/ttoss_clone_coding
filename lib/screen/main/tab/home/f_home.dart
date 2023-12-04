@@ -1,3 +1,6 @@
+import 'dart:convert';
+import 'dart:isolate';
+
 import 'package:fast_app_base/common/common.dart';
 import 'package:fast_app_base/common/widget/w_rounded_container.dart';
 import 'package:fast_app_base/screen/dialog/d_message.dart';
@@ -66,7 +69,8 @@ class _HomeFragmentState extends State<HomeFragment> {
                       width: 250,
                       child: RiveLikeButton(
                         isLike,
-                        onTapLike: (isLike) {
+                        onTapLike: (bool isLike) async {
+                          await veryHeavyComputationWorkWithIsolateSpawn();
                           setState(() {
                             this.isLike = isLike;
                           });
@@ -193,5 +197,102 @@ class _HomeFragmentState extends State<HomeFragment> {
 
   void openDrawer(BuildContext context) {
     Scaffold.of(context).openDrawer();
+  }
+
+  Future<void> veryHeavyComputationWork() async {
+    int count = 0;
+    debugPrint('Count Start');
+    final startTime = DateTime.now();
+    for (int i = 0; i <= 900000000; i++) {
+      count += 7;
+    }
+    debugPrint(count.toString());
+    debugPrint(
+        '${DateTime.now().difference(startTime).inMilliseconds / 1000}sec');
+  }
+
+  Future<void> veryHeavyComputationWorkWithIsolateSpawn() async {
+    final errorPort = ReceivePort();
+    errorPort.listen((element) {
+      debugPrint('Isolate Error!');
+      debugPrint(element);
+    });
+    final exitPort = ReceivePort();
+    exitPort.listen((message) {
+      debugPrint('Exit - Done');
+    });
+    final progressListenPort = ReceivePort();
+    progressListenPort.listen((message) {
+      debugPrint('received from isolate');
+      debugPrint(message.toString());
+    });
+    final isolate = await Isolate.spawn((port) {
+    // (wrappedMessage) {
+    //   final data = wrappedMessage["data"];
+    //   final color = wrappedMessage["color"];
+    //   final port = wrappedMessage["port"] as SendPort;
+    //   print(data);
+    //   print(color);
+
+      int count = 0;
+      debugPrint('Isolate Count Start');
+      final startTime = DateTime.now();
+      for (int i = 0; i <= 800000000; i++) {
+        count += 1;
+
+        if (i % 100000000 == 0) {
+          port.send(count);
+          debugPrint(
+              "${DateTime.now().difference(startTime).inMilliseconds / 1000}sec");
+        }
+
+        // if (i % 10000000 == 0) {
+        //   throw Exception('error');
+        // }
+      }
+      debugPrint(count.toString());
+      debugPrint(
+          "${DateTime.now().difference(startTime).inMilliseconds / 1000}sec");
+      },
+      // {"data": "filePath.mp4", "color": Colors.green, "port": progressListenPort.sendPort},
+      progressListenPort.sendPort,
+      onError: errorPort.sendPort,
+      onExit: exitPort.sendPort
+    );
+
+    debugPrint('spawn done');
+    delay(() {
+      // debugPrint('force kill');
+      // isolate.kill(priority: Isolate.immediate);
+
+      // debugPrint('force exit isolate');
+      // Isolate.exit(isolate.controlPort);
+    }, 500.ms);
+  }
+
+  ///Flutter 3.7 이상
+  void veryHeavyComputationWorkWithIsolateRun() async {
+    const message = '{"message": "Flutter is good"}';
+    try{
+      final isolateResult = await Isolate.run<String>(() {
+        final jsonObject = json.decode(message);
+        debugPrint(jsonObject["message"]);
+        int count = 0;
+        debugPrint('Isolate Count Start');
+        final startTime = DateTime.now();
+        for (int i = 0; i <= 900000000; i++) {
+          count += 7;
+        }
+
+        debugPrint(count.toString());
+        debugPrint(
+            "${DateTime.now().difference(startTime).inMilliseconds / 1000}sec");
+        return "Run Isolate Done";
+      });
+      debugPrint(isolateResult);
+    }catch (e) {
+      debugPrint(e.toString());
+    }
+
   }
 }
