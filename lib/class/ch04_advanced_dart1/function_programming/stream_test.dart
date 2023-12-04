@@ -1,5 +1,5 @@
 import 'dart:async';
-import 'package:fast_app_base/class/ch04_advanced_dart1/future_test.dart';
+import 'package:fast_app_base/class/ch04_advanced_dart1/function_programming/future_test.dart';
 
 
 const durationSample = Duration(seconds: 1);

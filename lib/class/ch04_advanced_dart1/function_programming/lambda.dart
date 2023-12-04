@@ -1,4 +1,4 @@
-import '../../common/dart/collection/sort_functions.dart';
+import '../../../common/dart/collection/sort_functions.dart';
 
 main() {
   /// Lambda의 표현 설명
