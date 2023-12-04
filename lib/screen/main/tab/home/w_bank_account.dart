@@ -14,7 +14,7 @@ class BankAccountWidget extends StatelessWidget {
     return Row(
       children: [
         Image.asset(
-          account.bank.logoImangePath,
+          account.bank.logoImagePath,
           width: 40,
         ),
         Expanded(

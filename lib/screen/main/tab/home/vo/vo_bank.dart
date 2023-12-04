@@ -1,22 +1,11 @@
-class Bank {
-  final String name;
-  final String logoImangePath;
+import 'package:freezed_annotation/freezed_annotation.dart';
 
-  Bank(this.name, this.logoImangePath);
+part 'vo_bank.freezed.dart';
 
-  @override
-  String toString() {
-    return name;
-  }
-
-  @override
-  bool operator ==(Object other) {
-    if(identical(this, other)){
-      return true;
-    }
-    if(other.runtimeType != runtimeType){
-      return false;
-    }
-    return other is Bank && other.name == name;
-  }
+@freezed
+class Bank with _$Bank {
+  factory Bank(
+      final String name,
+      final String logoImagePath,
+      ) = _Bank;
 }
